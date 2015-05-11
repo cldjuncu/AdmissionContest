@@ -1,0 +1,99 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <form>
+        CNP:<br>
+        <input type="text" id="cnp">
+        <br>
+
+        First name:<br>
+        <input type="text" id="firstName">
+        <br>
+
+        Last name:<br>
+        <input type="text" id="lastName">
+        <br>
+
+        Exam grade:<br>
+        <input type="text" id="examGrade">
+        <br>
+
+        MathBacGrade:<br>
+        <input type="text" id="mathBacGrade">
+        <br>
+
+        InfoBacGrade:<br>
+        <input type="text" id="infoBacGrade">
+        <br>
+
+        BacAverageGrade:<br>
+        <input type="text" id="bacAverageGrade">
+        <br>
+
+        <input type="submit" id="submit" value="Submit"/>
+
+        <input type="submit" id="submit2" value="Get results" />
+    </form>
+
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function () {
+                var student = {
+                    cnp: $('#cnp').val(),
+                    firstName: $('#firstName').val(),
+                    lastName: $('#lastName').val(),
+                    examGrade: $('#examGrade').val(),
+                    mathBacGrade: $('#mathBacGrade').val(),
+                    infoBacGrade: $('#infoBacGrade').val(),
+                    BacAverageGrade: $('#bacAverageGrade').val()
+                };
+                $.ajax({
+                    url: "/api/Students/Add",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify([student]),
+                    dataType: "text",
+                    success: function(data) {
+                        alert(data);
+                    },
+                    error: function() {
+                        alert("Request failed");
+                    }
+                });
+            });
+
+            $('#submit2').click(function () {
+                $.ajax({
+                    url: "/api/Results/Get",
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function () {
+                        alert("Request failed");
+                    }
+                });
+
+                //$.getJSON("/api/Results/Get")
+                //    .done(function(data) {
+                //        $('#st').text(formatItem(data));
+                //    })
+                //    .fail(function(jqXHR, textStatus, err) {
+                //        $('#student').text('error' + err);
+                //    });
+            });
+        });
+
+    </script>
+
+</body>
+</html>
